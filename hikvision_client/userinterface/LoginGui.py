@@ -22,16 +22,14 @@ This file is part of hikvision-client.
 
 # imports
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
-from gfworks.templates.gtk3.Gtk3GridTemplate import Gtk3GridTemplate
-
 templates = GridTemplateGenerator.get_grid_templates()
-
 try:
     used_template = templates["gtk3"]
 except KeyError:
     used_template = templates["tk"]
 
 
+# noinspection PyAbstractClass,PyUnresolvedReferences
 class LoginGui(used_template):
     """
     A Login Screen for the program
@@ -57,7 +55,7 @@ class LoginGui(used_template):
 
         :return: None
         """
-        self.login_button = self.generate_button("Log In")
+        self.login_button = self.generate_button("Log In", self.login)
         self.username_label = self.generate_label("Username")
         self.username_entry = self.generate_text_entry("")
         self.password_label = self.generate_label("Password")
@@ -69,3 +67,19 @@ class LoginGui(used_template):
         self.position_absolute(self.password_entry, 2, 1, 2, 1)
         self.position_absolute(self.login_button, 1, 3, 2, 1)
 
+    def login(self, widget) -> None:
+        """
+        Tries to log in. Continues on to the Main Gui on success or shows an error dialog on failure
+
+        :param widget: The button that called this method
+        :return: None
+        """
+        str(widget)
+        username = self.get_string_from_text_entry(self.username_entry)
+        password = self.get_string_from_text_entry(self.password_entry)
+
+        if username and password:
+            self.stop()
+            # MainGui
+        else:
+            self.show_message_dialog("Error Logging In", "Please enter both a username and a password")
