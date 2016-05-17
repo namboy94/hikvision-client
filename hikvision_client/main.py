@@ -20,8 +20,17 @@ This file is part of hikvision-client.
     along with hikvision-client.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from config import ConfigParser
+from config.ConfigParser import ConfigParser
 from userinterface import MainGUI
 
-cams = ConfigParser.ConfigParser().parse()
-MainGUI.MainGUI(cams)
+
+def main():
+    try:
+        cams = ConfigParser.parse_camera_config()
+        MainGUI.MainGUI(cams)
+    except OSError:
+        print("Invalid Configuration")
+
+
+if __name__ == '__main__':
+    main()

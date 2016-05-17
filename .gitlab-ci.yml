@@ -1,0 +1,7 @@
+stages:
+  - setup
+  - test
+  - upload
+  - upgrade
+  - cleanup
+

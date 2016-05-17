@@ -1,0 +1,5 @@
+build
+dist
+doc/build
+hikvision_client.egg-info
+.idea

@@ -20,35 +20,31 @@ This file is part of hikvision-client.
     along with hikvision-client.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-
+# imports
 import os
-import collections
 
-"""
-Class that parses camera config files
-"""
+
 class ConfigParser(object):
+    """
+    Class that parses camera config files
+    """
 
-    """
-    Constructor
-    """
-    def __init__(self):
-        self.configs = []
+    @staticmethod
+    def parse_camera_config():
+        """
+        Parses a configuration file to load the user's configured cameras
+        
+        :return: a list of configs
+        """
+        config_file = os.path.join(os.path.expanduser("~"), ".hikvision_client", "cam_config")
 
-    """
-    Starts the parsing
-    @:return a list of configs
-    """
-    def parse(self):
-        configDir = os.getenv("HOME") + "/.cams/config"
-        for config in os.listdir(configDir):
-            camDictionary = collections.OrderedDict()
-            camDictionary["name"] = config
-            configFile = configDir + "/" + config
-            file = open(configFile)
-            for line in file:
-                camname = line.split(":")[0]
-                camlink = line.split(":", 1)[1]
-                camDictionary[camname] = camlink
-            self.configs.append(camDictionary)
-        return self.configs
+        with open(config_file, 'r') as config:
+            content = config.read().split("\n")
+
+            cameras = []
+
+            for line in content:
+                cam_name, cam_link = line.split("#####")
+                cameras.append((cam_name, cam_link))
+
+        return cameras
