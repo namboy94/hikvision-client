@@ -21,13 +21,13 @@ This file is part of hikvision-client.
 """
 
 from config.ConfigParser import ConfigParser
-from userinterface import MainGUI
+from userinterface.LoginGui import LoginGui
 
 
 def main():
     try:
-        cams = ConfigParser.parse_camera_config()
-        MainGUI.MainGUI(cams)
+        #cams = ConfigParser.parse_camera_config()
+        LoginGui().start()
     except OSError:
         print("Invalid Configuration")
 

@@ -20,23 +20,21 @@ This file is part of hikvision-client.
     along with hikvision-client.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-
-import tkinter
-import easygui
+# imports
 import os
 
-"""
-Class that models the GUI
-@author Hermann Krumrey<hermann@krumreyh.com>
-"""
-class MainGUI(object):
 
+class MainGUI(object):
     """
-    Constructor, which asks the user for a username and password, and which group of cameras to use
-    Afterwards, a selection of cameras is shown that can be accessed
-    @:param camConfigs - the camera configurations
+    Class that models the GUI
     """
+
     def __init__(self, camsConfigs):
+        """
+        Constructor, which asks the user for a username and password, and which group of cameras to use
+        Afterwards, a selection of cameras is shown that can be accessed
+        @:param camConfigs - the camera configurations
+        """
 
         self.user = easygui.enterbox("User")
         self.passwd = easygui.passwordbox("Password")
