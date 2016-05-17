@@ -22,54 +22,52 @@ This file is part of hikvision-client.
 
 # imports
 import os
+from typing import Tuple, List
+from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
+templates = GridTemplateGenerator.get_grid_templates()
+try:
+    used_template = templates["gtk3"]
+except KeyError:
+    used_template = templates["tk"]
 
 
-class MainGUI(object):
+class MainGUI(used_template):
     """
     Class that models the GUI
     """
 
-    def __init__(self, camsConfigs):
+    username = ""
+    password = ""
+    cameras = []
+    camera_buttons = []
+
+    def __init__(self, credentials: Tuple[str, str], cameras: List[Tuple[str, str]]):
         """
         Constructor, which asks the user for a username and password, and which group of cameras to use
         Afterwards, a selection of cameras is shown that can be accessed
-        @:param camConfigs - the camera configurations
+
+        :param credentials: Tuple of username and password
+        :param cameras: The list of cameras to which the user can connect to
         """
+        self.username, self.password = credentials
+        self.cameras = cameras
+        super().__init__("Hikvision Client")
 
-        self.user = easygui.enterbox("User")
-        self.passwd = easygui.passwordbox("Password")
-        self.camGroup = "'"
+    def lay_out(self):
 
-        self.selectorGUI = tkinter.Tk()
-        for config in camsConfigs:
-            name = config["name"]
-            button = tkinter.Button(self.selectorGUI, text=name, command=lambda name=name:self.__setCamGroup__(name))
-            button.pack(fill=tkinter.X)
-        self.selectorGUI.mainloop()
+        print(self.cameras)
+        for camera in self.cameras:
+            camera_name, camera_link = camera
 
-        for config in camsConfigs:
-            if config["name"] == self.camGroup:
-                self.cams = config
-                break
+            def start_stream(widget):
+                os.system("vlc -vvv --live --no-drop-late-frames --no-skip-frames --rtsp-tcp rtsp://" + self.username +
+                          ":" + self.password + "@" + camera_link)
 
-        self.gui = tkinter.Tk()
-        self.buttons = []
-        for cam in self.cams:
-            if cam == "name": continue
-            button = tkinter.Button(self.gui, text=cam, command=lambda cam=cam:self.__startCam__(cam))
-            self.buttons.append(button)
-            button.pack(fill=tkinter.X)
-        self.gui.mainloop()
+            self.camera_buttons.append(self.generate_button(camera_name, start_stream))
 
-    """
-    Starts a camera
-    """
-    def __startCam__(self, cam):
-        os.system("vlc rtsp://" + self.user + ":" + self.passwd + "@" + self.cams[cam])
+        print(self.camera_buttons)
 
-    """
-    Sets the camera group
-    """
-    def __setCamGroup__(self, name):
-        self.camGroup = name
-        self.selectorGUI.destroy()
+        i = 0
+        for camera in self.camera_buttons:
+            self.position_absolute(camera, i, i, 1, 1)
+            i += 1

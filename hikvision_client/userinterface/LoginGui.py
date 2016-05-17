@@ -21,6 +21,7 @@ This file is part of hikvision-client.
 """
 
 # imports
+from hikvision_client.userinterface.MainGUI import MainGUI
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
 templates = GridTemplateGenerator.get_grid_templates()
 try:
@@ -35,19 +36,21 @@ class LoginGui(used_template):
     A Login Screen for the program
     """
 
+    cameras = []
     login_button = None
     username_label = None
     username_entry = None
     password_label = None
     password_entry = None
 
-    def __init__(self) -> None:
+    def __init__(self, cameras) -> None:
         """
         Calls the constructor of the parent class with the window title "Login"
 
         :return: None
         """
         super().__init__("Login")
+        self.cameras = cameras
 
     def lay_out(self) -> None:
         """
@@ -80,6 +83,6 @@ class LoginGui(used_template):
 
         if username and password:
             self.stop()
-            # MainGui
+            MainGUI((username, password), self.cameras).start()
         else:
             self.show_message_dialog("Error Logging In", "Please enter both a username and a password")

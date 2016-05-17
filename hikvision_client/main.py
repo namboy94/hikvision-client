@@ -25,11 +25,8 @@ from userinterface.LoginGui import LoginGui
 
 
 def main():
-    try:
-        #cams = ConfigParser.parse_camera_config()
-        LoginGui().start()
-    except OSError:
-        print("Invalid Configuration")
+    cams = ConfigParser.parse_camera_config()
+    LoginGui(cams).start()
 
 
 if __name__ == '__main__':

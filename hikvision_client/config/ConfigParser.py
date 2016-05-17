@@ -36,7 +36,7 @@ class ConfigParser(object):
         
         :return: a list of configs
         """
-        config_file = os.path.join(os.path.expanduser("~"), ".hikvision_client", "cam_config")
+        config_file = os.path.join(os.path.expanduser("~"), ".hikvision-client", "cam_config")
 
         with open(config_file, 'r') as config:
             content = config.read().split("\n")
@@ -44,7 +44,8 @@ class ConfigParser(object):
             cameras = []
 
             for line in content:
-                cam_name, cam_link = line.split("#####")
-                cameras.append((cam_name, cam_link))
+                if line:
+                    cam_name, cam_link = line.split("#####")
+                    cameras.append((cam_name, cam_link))
 
         return cameras
