@@ -22,6 +22,7 @@ This file is part of hikvision-client.
 
 # imports
 import os
+import vlc
 from typing import Tuple, List
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
 templates = GridTemplateGenerator.get_grid_templates()
@@ -31,6 +32,7 @@ except KeyError:
     used_template = templates["tk"]
 
 
+# noinspection PyUnresolvedReferences
 class MainGUI(used_template):
     """
     Class that models the GUI
@@ -60,6 +62,11 @@ class MainGUI(used_template):
             camera_name, camera_link = camera
 
             def start_stream(widget):
+                """
+                player = vlc.MediaPlayer("-vvv --live --no-drop-late-frames --no-skip-frames --rtsp-tcp rtsp://" + self.username +
+                           ":" + self.password + "@" + camera_link)
+                vlc.MediaPlayer.set
+                """
                 os.system("vlc -vvv --live --no-drop-late-frames --no-skip-frames --rtsp-tcp rtsp://" + self.username +
                           ":" + self.password + "@" + camera_link)
 
