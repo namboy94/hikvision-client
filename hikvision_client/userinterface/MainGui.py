@@ -21,9 +21,8 @@ This file is part of hikvision-client.
 """
 
 # imports
-import os
-import vlc
 from typing import Tuple, List
+from subprocess import Popen, PIPE
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
 templates = GridTemplateGenerator.get_grid_templates()
 try:
@@ -33,7 +32,7 @@ except KeyError:
 
 
 # noinspection PyUnresolvedReferences
-class MainGUI(used_template):
+class MainGui(used_template):
     """
     Class that models the GUI
     """
@@ -57,24 +56,28 @@ class MainGUI(used_template):
 
     def lay_out(self):
 
-        print(self.cameras)
         for camera in self.cameras:
             camera_name, camera_link = camera
 
-            def start_stream(widget):
-                """
-                player = vlc.MediaPlayer("-vvv --live --no-drop-late-frames --no-skip-frames --rtsp-tcp rtsp://" + self.username +
-                           ":" + self.password + "@" + camera_link)
-                vlc.MediaPlayer.set
-                """
-                os.system("vlc -vvv --live --no-drop-late-frames --no-skip-frames --rtsp-tcp rtsp://" + self.username +
-                          ":" + self.password + "@" + camera_link)
+            def start_stream(widget, this_camera_link: str):
+                str(widget)
+                args = ["vlc",
+                        "-vvv",
+                        "--live",
+                        "--no-drop-late-frames",
+                        "--no-skip-frames",
+                        "--rtsp-tcp",
+                        ("rtsp://" + self.username + ":" + self.password + "@" + this_camera_link).rstrip()]
+                Popen(args, stderr=PIPE).wait()
 
-            self.camera_buttons.append(self.generate_button(camera_name, start_stream))
+            self.camera_buttons.append(self.generate_button(camera_name, start_stream, camera_link))
 
-        print(self.camera_buttons)
-
-        i = 0
+        row = 0
+        column = 0
         for camera in self.camera_buttons:
-            self.position_absolute(camera, i, i, 1, 1)
-            i += 1
+            self.position_absolute(camera, column, row, 2, 1)
+            column += 2
+
+            if column % 6 == 0:
+                row += 1
+                column = 0

@@ -21,13 +21,14 @@ This file is part of hikvision-client.
 """
 
 # imports
-from hikvision_client.userinterface.MainGUI import MainGUI
+from hikvision_client.userinterface.MainGui import MainGui
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
 templates = GridTemplateGenerator.get_grid_templates()
 try:
     used_template = templates["gtk3"]
 except KeyError:
     used_template = templates["tk"]
+    print(used_template)
 
 
 # noinspection PyAbstractClass,PyUnresolvedReferences
@@ -62,7 +63,7 @@ class LoginGui(used_template):
         self.username_label = self.generate_label("Username")
         self.username_entry = self.generate_text_entry("")
         self.password_label = self.generate_label("Password")
-        self.password_entry = self.generate_text_entry("")
+        self.password_entry = self.generate_password_entry()
 
         self.position_absolute(self.username_label, 0, 0, 2, 1)
         self.position_absolute(self.password_label, 2, 0, 2, 1)
@@ -83,6 +84,6 @@ class LoginGui(used_template):
 
         if username and password:
             self.stop()
-            MainGUI((username, password), self.cameras).start()
+            MainGui((username, password), self.cameras).start()
         else:
             self.show_message_dialog("Error Logging In", "Please enter both a username and a password")

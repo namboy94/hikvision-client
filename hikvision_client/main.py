@@ -20,11 +20,17 @@ This file is part of hikvision-client.
     along with hikvision-client.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import os
+import sys
 from config.ConfigParser import ConfigParser
 from userinterface.LoginGui import LoginGui
 
 
 def main():
+    # block stderr messages from being printed.
+    dev_null = open(os.devnull, 'w')
+    sys.stderr = dev_null
+
     cams = ConfigParser.parse_camera_config()
     LoginGui(cams).start()
 
