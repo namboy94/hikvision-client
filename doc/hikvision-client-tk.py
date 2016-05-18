@@ -20,29 +20,8 @@ This file is part of hikvision-client.
     along with hikvision-client.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import sys
-from config.ConfigParser import ConfigParser
-
-
-def main(graphics_framework: str = ""):
-    """
-    The main method of the program
-    It parses the local config file for cameras
-
-    :return: None
-    """
-    if len(sys.argv) < 2:
-        sys.argv.append("tk")
-    if graphics_framework:
-        sys.argv[1] = graphics_framework
-
-    print(sys.argv)
-
-    from userinterface.LoginGui import LoginGui
-
-    cams = ConfigParser.parse_camera_config()
-    LoginGui(cams).start()
+from hikvision_client.main import main
 
 
 if __name__ == '__main__':
-    main("gtk3")
+    main("tk")

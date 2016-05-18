@@ -21,14 +21,15 @@ This file is part of hikvision-client.
 """
 
 # imports
+import sys
+from typing import List, Tuple
 from hikvision_client.userinterface.MainGui import MainGui
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
 templates = GridTemplateGenerator.get_grid_templates()
 try:
-    used_template = templates["gtk3"]
+    used_template = templates[sys.argv[1]]
 except KeyError:
     used_template = templates["tk"]
-    print(used_template)
 
 
 # noinspection PyAbstractClass,PyUnresolvedReferences
@@ -38,13 +39,36 @@ class LoginGui(used_template):
     """
 
     cameras = []
-    login_button = None
-    username_label = None
-    username_entry = None
-    password_label = None
-    password_entry = None
+    """
+    The list of cameras read from the config file
+    """
 
-    def __init__(self, cameras) -> None:
+    login_button = None
+    """
+    The login button
+    """
+
+    username_label = None
+    """
+    A Label that displays the string "Username"
+    """
+
+    username_entry = None
+    """
+    An entry widget for the user to enter his/her username
+    """
+
+    password_label = None
+    """
+    A Label that displays the string "Password"
+    """
+
+    password_entry = None
+    """
+    A password entry widget for the user to enter his/her password
+    """
+
+    def __init__(self, cameras: List[Tuple[str, str]]) -> None:
         """
         Calls the constructor of the parent class with the window title "Login"
 
@@ -71,7 +95,7 @@ class LoginGui(used_template):
         self.position_absolute(self.password_entry, 2, 1, 2, 1)
         self.position_absolute(self.login_button, 1, 3, 2, 1)
 
-    def login(self, widget) -> None:
+    def login(self, widget: object) -> None:
         """
         Tries to log in. Continues on to the Main Gui on success or shows an error dialog on failure
 

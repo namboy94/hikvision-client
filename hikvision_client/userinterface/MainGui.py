@@ -31,16 +31,31 @@ except KeyError:
     used_template = templates["tk"]
 
 
-# noinspection PyUnresolvedReferences
+# noinspection PyUnresolvedReferences,PyAbstractClass
 class MainGui(used_template):
     """
     Class that models the GUI
     """
 
     username = ""
+    """
+    The user's username
+    """
+
     password = ""
+    """
+    The user's password
+    """
+
     cameras = []
+    """
+    The list of cameras read while parsing the config
+    """
+
     camera_buttons = []
+    """
+    The list of camera buttons
+    """
 
     def __init__(self, credentials: Tuple[str, str], cameras: List[Tuple[str, str]]):
         """
@@ -54,23 +69,17 @@ class MainGui(used_template):
         self.cameras = cameras
         super().__init__("Hikvision Client")
 
-    def lay_out(self):
+    def lay_out(self) -> None:
+        """
+        Handles the layout of the GUI
+
+        :return: None
+        """
 
         for camera in self.cameras:
             camera_name, camera_link = camera
 
-            def start_stream(widget, this_camera_link: str):
-                str(widget)
-                args = ["vlc",
-                        "-vvv",
-                        "--live",
-                        "--no-drop-late-frames",
-                        "--no-skip-frames",
-                        "--rtsp-tcp",
-                        ("rtsp://" + self.username + ":" + self.password + "@" + this_camera_link).rstrip()]
-                Popen(args, stderr=PIPE).wait()
-
-            self.camera_buttons.append(self.generate_button(camera_name, start_stream, camera_link))
+            self.camera_buttons.append(self.generate_button(camera_name, self.start_stream, camera_link))
 
         row = 0
         column = 0
@@ -81,3 +90,21 @@ class MainGui(used_template):
             if column % 6 == 0:
                 row += 1
                 column = 0
+
+    def start_stream(self, widget: object, this_camera_link: str) -> None:
+        """
+        Starts the video feed for a camera
+
+        :param widget: the button calling this method
+        :param this_camera_link: the camera link used
+        :return: None
+        """
+        str(widget)
+        args = ["vlc",
+                "-vvv",
+                "--live",
+                "--no-drop-late-frames",
+                "--no-skip-frames",
+                "--rtsp-tcp",
+                ("rtsp://" + self.username + ":" + self.password + "@" + this_camera_link).rstrip()]
+        Popen(args, stderr=PIPE).wait()

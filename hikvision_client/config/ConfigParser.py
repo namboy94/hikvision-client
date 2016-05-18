@@ -22,6 +22,7 @@ This file is part of hikvision-client.
 
 # imports
 import os
+from typing import List, Tuple
 
 
 class ConfigParser(object):
@@ -30,11 +31,11 @@ class ConfigParser(object):
     """
 
     @staticmethod
-    def parse_camera_config():
+    def parse_camera_config() -> List[Tuple[str, str]]:
         """
         Parses a configuration file to load the user's configured cameras
         
-        :return: a list of configs
+        :return: a list of tuples consisting of the name and address of a camera
         """
         config_file = os.path.join(os.path.expanduser("~"), ".hikvision-client", "cam_config")
 
