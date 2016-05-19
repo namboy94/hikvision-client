@@ -21,7 +21,7 @@ This file is part of hikvision-client.
 """
 
 import sys
-from config.ConfigParser import ConfigParser
+from hikvision_client.config.ConfigParser import ConfigParser
 
 
 def main(graphics_framework: str = ""):
@@ -38,7 +38,7 @@ def main(graphics_framework: str = ""):
 
     print(sys.argv)
 
-    from userinterface.LoginGui import LoginGui
+    from hikvision_client.userinterface.LoginGui import LoginGui
 
     cams = ConfigParser.parse_camera_config()
     LoginGui(cams).start()

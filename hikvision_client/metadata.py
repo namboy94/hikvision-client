@@ -35,12 +35,12 @@ project_description = "A graphical client software for Hikvision (and other RTSP
 A short description of the project
 """
 
-version_number = "0.1"
+version_number = "0.5"
 """
 The current version of the program.
 """
 
-development_status = "Development Status :: 2 - Pre-Alpha"
+development_status = "Development Status :: 3 - Alpha"
 """
 The current development status of the program
 """
@@ -111,12 +111,12 @@ pypi_requirements = ["gfworks"]
 List of requirements available on pypi.
 """
 
-other_requirements = []
+other_requirements = ["VLC"]
 """
 List of requirements not available on pypi
 """
 
-scripts = []
+scripts = ["bin/hikvision-client-gtk", "bin/hikvision-client-tk"]
 """
 List of script files to be installed during installation
 """

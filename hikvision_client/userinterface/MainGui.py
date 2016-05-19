@@ -27,7 +27,7 @@ from subprocess import Popen, PIPE
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
 templates = GridTemplateGenerator.get_grid_templates()
 try:
-    used_template = templates["gtk3"]
+    used_template = templates[sys.argv[1]]
 except KeyError:
     used_template = templates["tk"]
 
