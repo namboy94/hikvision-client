@@ -21,6 +21,7 @@ This file is part of hikvision-client.
 """
 
 # imports
+import sys
 from typing import Tuple, List
 from subprocess import Popen, PIPE
 from gfworks.templates.generators.GridTemplateGenerator import GridTemplateGenerator
@@ -57,17 +58,18 @@ class MainGui(used_template):
     The list of camera buttons
     """
 
-    def __init__(self, credentials: Tuple[str, str], cameras: List[Tuple[str, str]]):
+    def __init__(self, credentials: Tuple[str, str], cameras: List[Tuple[str, str]], login_window: used_template):
         """
         Constructor, which asks the user for a username and password, and which group of cameras to use
         Afterwards, a selection of cameras is shown that can be accessed
 
         :param credentials: Tuple of username and password
         :param cameras: The list of cameras to which the user can connect to
+        :param login_window: The login window calling this window
         """
         self.username, self.password = credentials
         self.cameras = cameras
-        super().__init__("Hikvision Client")
+        super().__init__("Hikvision Client", parent=login_window, hide_parent=True)
 
     def lay_out(self) -> None:
         """
@@ -108,3 +110,11 @@ class MainGui(used_template):
                 "--rtsp-tcp",
                 ("rtsp://" + self.username + ":" + self.password + "@" + this_camera_link).rstrip()]
         Popen(args, stderr=PIPE).wait()
+
+    def stop(self) -> None:
+        """
+        Overrides the stop() method to close the program if this window is closed
+
+        :return: None
+        """
+        sys.exit(0)

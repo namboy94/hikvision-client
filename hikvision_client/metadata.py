@@ -106,7 +106,7 @@ license_identifier = "License :: OSI Approved :: GNU General Public License v3 (
 The license used for this project
 """
 
-pypi_requirements = []
+pypi_requirements = ["gfworks"]
 """
 List of requirements available on pypi.
 """

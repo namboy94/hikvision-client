@@ -87,7 +87,7 @@ class LoginGui(used_template):
         self.username_label = self.generate_label("Username")
         self.username_entry = self.generate_text_entry("")
         self.password_label = self.generate_label("Password")
-        self.password_entry = self.generate_password_entry()
+        self.password_entry = self.generate_password_entry(self.login)
 
         self.position_absolute(self.username_label, 0, 0, 2, 1)
         self.position_absolute(self.password_label, 2, 0, 2, 1)
@@ -107,7 +107,6 @@ class LoginGui(used_template):
         password = self.get_string_from_text_entry(self.password_entry)
 
         if username and password:
-            self.stop()
-            MainGui((username, password), self.cameras).start()
+            MainGui((username, password), self.cameras, login_window=self).start()
         else:
             self.show_message_dialog("Error Logging In", "Please enter both a username and a password")

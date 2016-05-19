@@ -38,7 +38,6 @@ upload_to_pypi:
     - cd
     - cd hikvision-client
     - python setup.py register sdist upload
-    - sleep 60
   allow_failure: true
 
 upload_documentation_and_statistics:

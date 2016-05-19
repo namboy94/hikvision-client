@@ -39,8 +39,8 @@ class ConfigParser(object):
         """
         config_file = os.path.join(os.path.expanduser("~"), ".hikvision-client", "cam_config")
 
-        if not os.path.isdir(os.path.join((os.path.expanduser("~"), ".hikvision-client"))):
-            os.makedirs(os.path.join((os.path.expanduser("~"), ".hikvision-client")))
+        if not os.path.isdir(os.path.join(os.path.expanduser("~"), ".hikvision-client")):
+            os.makedirs(os.path.join(os.path.expanduser("~"), ".hikvision-client"))
         if not os.path.isfile(config_file):
             open(config_file, 'w').close()
 
@@ -49,7 +49,7 @@ class ConfigParser(object):
             cameras = []
 
             for line in content:
-                if line:
+                if line and not line.startswith("#") and "#####" in line:
                     cam_name, cam_link = line.split("#####")
                     cameras.append((cam_name, cam_link))
 
