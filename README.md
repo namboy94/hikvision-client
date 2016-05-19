@@ -32,7 +32,7 @@ to function correctly.
 The program requires a configuration file located at ~/.hikvision-client/cam_config. It is a plain text file. To add a
 camera, add a new line in the following format:
 
-<Camera Name>#####<Camera Link>
+Camera_Name\#\#\#\#\#Camera_Link
 
 The camera link is formatted like this:
 
