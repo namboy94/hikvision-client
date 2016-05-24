@@ -115,8 +115,3 @@ other_requirements = ["VLC"]
 """
 List of requirements not available on pypi
 """
-
-scripts = ["bin/hikvision-client-gtk", "bin/hikvision-client-tk"]
-"""
-List of script files to be installed during installation
-"""
