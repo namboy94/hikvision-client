@@ -23,6 +23,9 @@ This file is part of hikvision-client.
 # imports
 import hikvision_client.metadata as metadata
 from setuptools import setup, find_packages
+# noinspection PyPackageRequirements
+import py2exe
+str(py2exe)
 
 
 def readme() -> str:
@@ -44,7 +47,9 @@ def readme() -> str:
         with open('README.md') as f:
             return f.read()
 
-setup(name=metadata.project_name,
+setup(windows=["bin/hikvision-client-tk.py"],
+      zipfile=None,
+      name=metadata.project_name,
       version=metadata.version_number,
       description=metadata.project_description,
       long_description=readme(),
