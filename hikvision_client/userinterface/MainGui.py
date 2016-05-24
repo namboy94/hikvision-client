@@ -101,6 +101,15 @@ class MainGui(used_template):
         :param this_camera_link: the camera link used
         :return: None
         """
+        """
+        import vlc
+        instance = vlc.Instance("--live --no-drop-late-frames --rtsp-tcp")
+        player = instance.media_player_new()
+        media = instance.media_new(("rtsp://" + self.username + ":" + self.password + "@" + this_camera_link).rstrip())
+        player.set_media(media)
+        player.play()
+        """
+
         str(widget)
         args = ["vlc",
                 "-vvv",
