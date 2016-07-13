@@ -21,9 +21,11 @@ This file is part of hikvision-client.
 """
 
 # imports
-import os
 import hikvision_client.metadata as metadata
 from setuptools import setup, find_packages
+# noinspection PyPackageRequirements
+import py2exe
+str(py2exe)
 
 
 def readme() -> str:
@@ -45,20 +47,9 @@ def readme() -> str:
         with open('README.md') as f:
             return f.read()
 
-
-def bin_files() -> "List of Strings":
-    """
-    Returns a list of string with the scripts in the bin directory
-
-    :return: the list of scripts
-    """
-    scripts = []
-    for file_name in os.listdir("bin"):
-        if not file_name == "__init__.py":
-            scripts.append("bin" + file_name)
-    return scripts
-
-setup(name=metadata.project_name,
+setup(windows=["bin/hikvision-client-tk.py"],
+      zipfile=None,
+      name=metadata.project_name,
       version=metadata.version_number,
       description=metadata.project_description,
       long_description=readme(),
@@ -77,7 +68,7 @@ setup(name=metadata.project_name,
       packages=find_packages(),
       install_requires=metadata.pypi_requirements,
       requires=metadata.other_requirements,
-      scripts=bin_files(),
+      scripts=metadata.scripts,
       test_suite='nose.collector',
       tests_require=['nose'],
       zip_safe=False)
