@@ -9,3 +9,6 @@ github_mirror:
     - git checkout master
     - git pull
     - git push git@github.com:namboy94/hikvision-client.git master -f
+    - git checkout develop
+    - git pull
+    - git push git@github.com:namboy94/hikvision-client.git develop -f
